@@ -1,0 +1,6 @@
+from collections import Counter
+
+from nltk.corpus import brown
+from nltk.util import ngrams
+
+print(brown.words())

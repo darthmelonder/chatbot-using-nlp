@@ -1,0 +1,14 @@
+import nltk
+from nltk.tokenize import sent_tokenize, word_tokenize
+
+def main():
+	while 1 == 1 :
+		print("Enter a statement")
+		statement = raw_input()
+		text = word_tokenize("And now for something completely different")
+		ans = nltk.pos_tag(text)
+		print(ans) 
+
+main()
+
+

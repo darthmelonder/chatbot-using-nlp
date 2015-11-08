@@ -1,0 +1,3 @@
+arr = [100,200,30]
+for i in range(0,arr.__len__()-1):
+	print(arr[i])
