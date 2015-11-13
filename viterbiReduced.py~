@@ -153,4 +153,16 @@ def main():
 
 		print(tagged_arr)
 		
+		simple_grammar = CFG.fromstring("""
+		  S -> JJ FileName
+		  JJ -> 'JJ'
+		  FileName -> 'NN'
+		  """)
+
+		parser = nltk.ChartParser(simple_grammar)
+		tree = parser.parse(pos_tags)
+
+		for tree in parser.parse(pos_tags):
+			print(tree)
+
 main()
