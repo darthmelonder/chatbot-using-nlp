@@ -46,6 +46,8 @@ def CKY(t):
 
 
 	table = {}
+	parent = {}
+	tree = []
 
 	sentence = t
 
@@ -65,8 +67,20 @@ def CKY(t):
 							table[(i,j)] = table[(i,j)]+rules[table[(i,k)]+" "+table[(k,j)]]
 						else:
 							table[(i,j)] = rules[table[(i,k)]+" "+table[(k,j)]]
-
+						parent[(i,j)] = k
 	print(table)
 	if 'S' in table[(0,n-1)]:
 		print("Parsed")
+
+	#Retrieve the tree
+	
+	for j in xrange(n-1,0,-1):
+		for i in xrange(0,j-1):
+			if((i,j) in table):
+				k = parent[(i,j)]
+				tree.append(table[(i,j)]+"->"+table[(i,k)]+' '+table[(k,j)])
+
+	print(tree)
+		
+		
 
