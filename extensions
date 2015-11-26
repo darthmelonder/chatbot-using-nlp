@@ -1,0 +1,7 @@
+gedit -> .sh,.pl,.awk,.txt,.py
+libreoffice --calc -> .ods,.ots,.fods,.uos,.xlsx,.xls,.xlt,.dif.dbf,.slk,.csv
+libreoffice --writer -> .odt,.ott,.fodt,.uot,.docx,.doc,.dot,.rtf,.docx
+libreoffice --impress -> .odp,.otp,.odg,.fodp,.uop,.pptx,.ppsx,.potm,.ppt,.pps,.pot
+eog -> .jpg,.jpeg,.bmp,.png
+firefox -> .html,.xml
+totem -> .mp4, .flv

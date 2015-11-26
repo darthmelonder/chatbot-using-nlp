@@ -2,9 +2,6 @@ from __future__ import division
 from __future__ import print_function
 from collections import Counter
 
-from nltk.tree import *
-from nltk.draw import tree
-
 from nltk.corpus import brown
 
 from nltk.util import ngrams
@@ -13,30 +10,13 @@ from nltk.tokenize import RegexpTokenizer
 
 from nltk.data import load
 
-from nltk import CFG
-
-from nltk import Tree
-
 import nltk
-
-import json
 
 tagdict = load('help/tagsets/brown_tagset.pickle')
 
-#taglist = tagdict.keys()
+taglist = tagdict.keys()
 
-#taglist stored in the file
-f = open('concise_taglist','r')
-tagLine = f.readline().rstrip('\n')
-tagLine = tagLine.split(',')
-tagDict = set()
-for i in range(0,tagLine.__len__()):
-	tagDict.add(tagLine[i].strip())
-taglist = list(tagDict)
-taglist.remove('NP')
-taglist.remove('')
-taglist = ['NP']+taglist
-f.close()
+#taglist = ['NOUN','ADJ','ADP','ADV','CONJ','DET','NUM','PRT','PRON','VERB','.','X']
 
 taglist_size = taglist.__len__()
 
@@ -48,17 +28,8 @@ corpus_with_tag = []
 print("Creating tag lists....")
 for sentences in tag_sequence_corpus:
 	for tags in sentences:
-		word = tags[0]
-		wordTag = tags[1]
-		if '+' in wordTag:
-			position = wordTag.find('+')
-			wordTag = wordTag[0:position]		
-		if '-' in wordTag and wordTag!='--':
-			position = wordTag.find('-')
-			wordTag = wordTag[0:position]
-		tag_list.append(wordTag)
-		corpus_with_tag.append((word,wordTag))
-
+		tag_list.append(tags[1])
+		corpus_with_tag.append((tags[0],tags[1]))
 print("Done creating tag lists....")
 
 print("Creating tag corpus...")
@@ -138,19 +109,19 @@ def cutit(s,rem,n):
 	n = n + rem.__len__()
 	return s[n:]
 
-def tree2dict(tree):
-    return {tree.label(): [tree2dict(t)  if isinstance(t, Tree) else t
-                        for t in tree]}
-
-def dict_to_json(dict):
-    return json.dumps(dict)
-
 def main():
 	while 1 == 1 :
 		print("Enter a statement")
 		statement = raw_input()
 		statement = statement.lower()
+		f = open('eliminate.txt','r')
+		removable = []
+		for line in f:
+			removable.append(line[:-1])
 
+		for k in range(0,removable.__len__()-1):
+			if(removable[k] in statement):
+				statement = cutit(statement,removable[k],statement.find(removable[k]))
 
 		tagged_arr = Viterbi(statement)
 
@@ -160,50 +131,12 @@ def main():
 		for i in range(2,tagged_arr.__len__()):
 			if tagged_arr[i] == tag:
 				count = count + 1
-		
+
 		if count == tagged_arr.__len__()-1:
 			tokens = word_tokenize(statement)
 			n = tokens.__len__()
 			for i in range(0,n):
-				tag_temp = Viterbi(tokens[i])[1]
-				tagged_arr[i+1] = tag_temp
-				if tokens[i]=='open':
-					tagged_arr[i+1] = 'VB'
-				if tokens[i]=='file':
-					tagged_arr[i+1] = 'NN'
-					
-				
+				tagged_arr[i+1] = Viterbi(tokens[i])[1]
 
 		print(tagged_arr)
-		
-		simple_grammar = CFG.fromstring("""
-		  S -> NP VP
-		  S -> VP
-		  NP -> MODAL PRON | DET NP | NOUN VF | NOUN
- 		  MODAL -> 'MD'
-      		  PRON -> 'PPSS' | 'PPO'
- 		  VP -> VERB NP
-		  VP -> VERB VP
-		  VP -> ADVERB VP
-		  VP -> VF
-	          VERB -> 'VB' | 'VBN'
-		  NOUN -> 'NN' | 'NP'
- 		  VF -> VERB FILENAME
-  		  FILENAME -> 'NN' | 'NP'
-		  ADVERB -> 'RB'
-	          DET -> 'AT'
-		  """)
-
-		tagged_arr.remove('')
-		parser = nltk.ChartParser(simple_grammar)
-
-		json = ''
-
-		for tree in parser.parse(tagged_arr):
-			#print(tree)
-			#tree.draw()
-			json = dict_to_json(tree2dict(tree))
-		
-		print(json)
-
 main()

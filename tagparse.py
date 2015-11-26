@@ -161,7 +161,7 @@ def main():
 			if tagged_arr[i] == tag:
 				count = count + 1
 		
-		if count == tagged_arr.__len__()-1:
+		'''if count == tagged_arr.__len__()-1:
 			tokens = word_tokenize(statement)
 			n = tokens.__len__()
 			for i in range(0,n):
@@ -171,33 +171,35 @@ def main():
 					tagged_arr[i+1] = 'VB'
 				if tokens[i]=='file':
 					tagged_arr[i+1] = 'NN'
+		'''
 					
 				
 
 		print(tagged_arr)
 		
+		'''
 		simple_grammar = CFG.fromstring("""
-		  S -> NP VP
-		  S -> VP
-		  NP -> MODAL PRON | DET NP | NOUN VF | NOUN
- 		  MODAL -> 'MD'
-      		  PRON -> 'PPSS' | 'PPO'
- 		  VP -> VERB NP
-		  VP -> VERB VP
-		  VP -> ADVERB VP
-		  VP -> VF
-	          VERB -> 'VB' | 'VBN'
-		  NOUN -> 'NN' | 'NP'
- 		  VF -> VERB FILENAME
-  		  FILENAME -> 'NN' | 'NP'
-		  ADVERB -> 'RB'
-	          DET -> 'AT'
-		  """)
+				  S -> NP VP
+				  S -> VP
+				  NP -> MODAL PRON | DET NP | NOUN VF | NOUN
+		 		  MODAL -> 'MD'
+		      		  PRON -> 'PPSS' | 'PPO'
+		 		  VP -> VERB NP
+				  VP -> VERB VP
+				  VP -> ADVERB VP
+				  VP -> VF
+				  VERB -> 'VB' | 'VBN'
+				  NOUN -> 'NN' | 'NP'
+		 		  VF -> VERB FILENAME
+		  		  FILENAME -> 'NN' | 'NP'
+				  ADVERB -> 'RB'
+				  DET -> 'AT'
+				  """)
 
 		tagged_arr.remove('')
 		parser = nltk.ChartParser(simple_grammar)
 
-		json = ''
+		json_str = ''
 
 		for tree in parser.parse(tagged_arr):
 			#print(tree)
@@ -205,5 +207,6 @@ def main():
 			json = dict_to_json(tree2dict(tree))
 		
 		print(json)
+	'''
 
 main()

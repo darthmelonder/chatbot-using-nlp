@@ -10,11 +10,11 @@ def CKY(t):
 	 		  VP -> VERB NP
 			  VP -> VERB VP
 			  VP -> ADVERB VP
-			  VP -> VF
+			  VP -> VERB FILENAME
 			  VERB -> 'VB' | 'VBN'
 			  NOUN -> 'NN' | 'NP'
 	 		  VF -> VERB FILENAME
-	  		  FILENAME -> 'NN' | 'NP'
+	  		  FILENAME -> 'FN'
 			  ADVERB -> 'RB'
 			  DET -> 'AT'"""
 
@@ -46,12 +46,10 @@ def CKY(t):
 
 
 	table = {}
-	parent = {}
+	split = {}
 	tree = []
 
 	sentence = t
-
-	#sentence = ['']+sentence
 
 	n = len(sentence)
 
@@ -67,20 +65,31 @@ def CKY(t):
 							table[(i,j)] = table[(i,j)]+rules[table[(i,k)]+" "+table[(k,j)]]
 						else:
 							table[(i,j)] = rules[table[(i,k)]+" "+table[(k,j)]]
-						parent[(i,j)] = k
+						split[(i,j)] = k
 	print(table)
 	if 'S' in table[(0,n-1)]:
 		print("Parsed")
 
 	#Retrieve the tree
+	tree_arr = ['']*(2**n)
 	
-	for j in xrange(n-1,0,-1):
-		for i in xrange(0,j-1):
-			if((i,j) in table):
-				k = parent[(i,j)]
-				tree.append(table[(i,j)]+"->"+table[(i,k)]+' '+table[(k,j)])
+	k = 0
+	i = 0
+	j = n-1
+	root = 1
+	
+	while (k < n-2):
+		k = split[(i,j)]
+		left = 2*root
+		right = left+1
+		tree_arr[root] = table[(i,j)]
+		tree_arr[left] = table[(i,k)]
+		tree_arr[right] = table[(k,j)]
+		i = k
+		root = i
 
-	print(tree)
-		
-		
+	print(tree_arr)
+			
+CKY(['','MD','PPSS','VB','AT','FN'])
+
 

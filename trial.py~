@@ -1,0 +1,22 @@
+import os
+
+fileName = 'begin'
+
+os.system('whoami>myname')
+f = open('myname','r')
+user = ''
+for line in f:
+	user = line.rstrip('\n')
+f.close()
+os.system('rm myname')
+os.system('find /home/'+user+' -type f -name '+fileName+' 2>/dev/null |cat>temp')
+os.system('wc -l<temp >count')
+countL=''
+f = open('count','r')
+for line in f:
+	countL = line.strip('\n')
+countL = Decimal(count)
+os.system('rm temp')
+os.system('rm count')
+if countL>=1
+	return True

@@ -1,0 +1,183 @@
+FacebookMessenger => unity-webapps-runner -n 'RmFjZWJvb2tNZXNzZW5nZXI
+Gmail => unity-webapps-runner -n 'R21haWw
+GooglePlus => unity-webapps-runner -n 'R29vZ2xlUGx1cw
+YouTube => unity-webapps-runner -n 'WW91VHViZQ
+Activity Log Manager => activity-log-manager
+Main Menu => alacarte
+Report a problem... => /usr/share/apport/apport-gtk -c %f
+AptURL => apturl %u
+Disk Usage Analyzer => baobab
+Bluetooth Transfer => bluetooth-sendto
+Bluetooth Device Setup => bluetooth-wizard
+CD/DVD Creator => nautilus --no-default-window --no-desktop burn:/// 
+Brasero => brasero %U
+Open a New Window => brasero --no-existing-session
+Burn an Image File => brasero --image
+Copy a Disc => brasero --copy
+Create an Audio Project => brasero --audio
+Create a Video Project => brasero --video
+System Testing => checkbox-gui
+Cheese => cheese
+Code::Blocks IDE => codeblocks %F
+Compiz => compiz
+Online Accounts => credentials-preferences
+UXTerm => uxterm
+XTerm => xterm
+Backups => deja-dup-preferences
+Back Up => deja-dup --backup
+Backups => deja-dup --backup
+Empathy => empathy
+Open Hidden in Background => empathy -h
+Open Preferences => empathy -p
+Open Accounts => unity-control-center credentials
+Image Viewer => eog %U
+Print Preview => evince-previewer %U
+Document Viewer => evince %U
+Evolution Data Server => Archive Manager => file-roller %U
+Firefox Web Browser => firefox %u
+Open a New Window => firefox -new-window
+Open a New Private Window => firefox -private-window
+Galculator => galculator
+Access Prompt => /usr/lib/gcr/gcr-prompter
+View file => /usr/bin/gcr-viewer
+gedit => gedit %U
+Open a New Window => gedit --new-window
+Open a New Document => gedit --new-document
+Keyboard Layout => gkbd-keyboard-display
+Calculator => gnome-calculator
+Contacts => gnome-contacts
+Backups => gnome-control-center deja-dup
+Back Up => deja-dup --backup
+Disk Image Mounter => gnome-disk-image-mounter %U
+Disk Image Writer => gnome-disks --restore-disk-image %U
+Disks => gnome-disks
+Mahjongg => gnome-mahjongg
+Mines => gnome-mines
+Power Statistics => gnome-power-statistics
+Startup Applications => gnome-session-properties
+Sudoku => gnome-sudoku
+System Log => gnome-system-log-pkexec
+GNOME System Monitor => gnome-system-monitor
+System Monitor => gnome-system-monitor
+Terminal => gnome-terminal
+New Terminal => gnome-terminal
+Personal File Sharing => gnome-file-share-properties
+Character Map => gucharmap
+Reactivate HP LaserJet 1018/1020 after reloading paper => /usr/share/foo2zjs/hplj10xx_gui.tcl
+IBus Table Setup => /usr/lib/ibus/ibus-setup-table
+Keyboard Input Methods => ibus-setup
+Input Method => im-config
+Landscape Service => landscape-client-ui-install
+Language Support => /usr/bin/gnome-language-selector
+libreoffice --calc %U
+LibreOffice Calc => New Spreadsheet => libreoffice --calc
+libreoffice --draw %U
+LibreOffice Draw => New Drawing => libreoffice --draw
+libreoffice --impress %U
+LibreOffice Impress => New Presentation => libreoffice --impress
+libreoffice --math %U
+LibreOffice Math => New Formula => libreoffice --math
+libreoffice %U
+LibreOffice => Text Document => libreoffice --writer
+Spreadsheet => libreoffice --calc
+Presentation => libreoffice --impress
+Drawing => libreoffice --draw
+Database => libreoffice --base
+Formula => libreoffice --math
+libreoffice --writer %U
+LibreOffice Writer => New Document => libreoffice --writer
+libreoffice %U
+LibreOffice XSLT based filters => Mono Runtime => mono
+Mono Runtime (Terminal) => mono
+Run Software => nautilus-autorun-software %u
+Desktop Icons => nautilus --no-default-window --force-desktop
+Connect to Server => nautilus-connect-server
+Files => nautilus %U
+Open a New Window => nautilus --new-window
+Files => nautilus --new-window %U
+Open a New Window => nautilus --new-window
+Network => nm-applet
+Network Connections => nm-connection-editor
+Onboard Settings => onboard-settings
+Onboard => onboard
+Screen Reader => orca --replace
+Cheese => cheese
+Archive Manager => file-roller %U
+Files => nautilus --new-window %U
+Open a New Window => nautilus --new-window
+Screenshot => gnome-screenshot --interactive
+Take a Screenshot of the Whole Screen => gnome-screenshot
+Take a Screenshot of the Current Window => gnome-screenshot -w
+Take a Screenshot of a Selected Area => gnome-screenshot -a
+Videos => totem %U
+Play/Pause => totem --play-pause
+Next => totem --next
+Previous => totem --previous
+Mute => totem --mute
+Fullscreen => totem --fullscreen
+Font Viewer => gnome-font-viewer %u
+phpMyAdmin => sensible-browser http://localhost/phpmyadmin/
+Pinta => pinta %F
+Python (v2.7) => /usr/bin/python2.7
+Python (v3.4) => /usr/bin/python3.4
+Remmina => remmina
+Create a New Connection Profile => remmina --new
+Start Remmina Minimized => remmina --icon
+Rhythmbox => rhythmbox %U
+Play => rhythmbox-client --play
+Pause => rhythmbox-client --pause
+Next => rhythmbox-client --next
+Previous => rhythmbox-client --previous
+Passwords and Keys => /usr/bin/seahorse
+Shotwell Viewer => shotwell %f
+Shotwell => shotwell %U
+Account authentication => /usr/bin/signon-ui
+Simple Scan => simple-scan
+Additional Drivers => Software & Updates => software-properties-gtk
+Software & Updates => software-properties-gtk
+AisleRiot Solitaire => /usr/games/sol
+Printers => system-config-printer
+Thunderbird Mail => thunderbird %u
+Compose New Message => thunderbird -compose
+Contacts => thunderbird -addressbook
+Videos => totem %U
+Play/Pause => totem --play-pause
+Next => totem --next
+Previous => totem --previous
+Mute => totem --mute
+Fullscreen => totem --fullscreen
+Transmission => transmission-gtk %U
+Start Transmission with All Torrents Paused => transmission-gtk --paused
+Start Transmission Minimized => transmission-gtk --minimized
+Amazon => unity-webapps-runner --amazon --app-id
+Ubuntu Software Center => /usr/bin/software-center %u
+Security & Privacy => unity-control-center activity-log-manager
+Appearance => unity-control-center appearance
+Bluetooth => unity-control-center bluetooth
+Color => unity-control-center color
+System Settings => unity-control-center --overview
+Online Accounts => unity-control-center credentials
+Time & Date => unity-control-center datetime
+Backups => unity-control-center deja-dup
+Back Up => deja-dup --backup
+Displays => unity-control-center display
+Details => unity-control-center info
+Keyboard => unity-control-center keyboard
+Photos lens for Unity => Mouse & Touchpad => unity-control-center mouse
+Network => unity-control-center network
+Power => unity-control-center power
+Text Entry => unity-control-center region
+
+Google Drive scope for Unity => Brightness & Lock => unity-control-center screen
+Sound => unity-control-center sound
+Universal Access => unity-control-center universal-access
+User Accounts => unity-control-center user-accounts
+Wacom Tablet => unity-control-center wacom
+/usr/bin/unity-webapps-qml-launcher $@
+Unity Webapps QML Test Launcher => Account update tool => /usr/lib/x86_64-linux-gnu/update-accounts
+Software Updater => /usr/bin/update-manager
+Startup Disk Creator => usb-creator-gtk
+Vim => vim %F
+Browser => webbrowser-app %u
+xdiagnose => pkexec xdiagnose
+Help => yelp %u

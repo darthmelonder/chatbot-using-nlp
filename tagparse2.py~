@@ -23,6 +23,12 @@ import json
 
 import os
 
+import action
+from action import *
+
+import filecheck
+from filecheck import *
+
 tagdict = load('help/tagsets/brown_tagset.pickle')
 
 #taglist = tagdict.keys()
@@ -38,21 +44,46 @@ taglist = list(tagDict)
 taglist.remove('NP')
 taglist.remove('')
 taglist = ['NP']+taglist
-taglist = ['FN']+taglist
+taglist = ['AN']+taglist
 f.close()
 
-appnames = set()
-os.system("dpkg --get-selections | grep -v deinstall > ~/Minor/packages_rough")
-os.system("cut -f 1 packages_rough>packages")
-os.system("rm packages_rough")
+appnames = []
+commands = []
 
-f = open('packages','r')
+verbList = ['copy','open','close','exit','shut','move','make','create','cut','change']
+
+#os.system("./app.awk")
+
+userName = ''
+
+f = open('appnames.txt','r')
 for line in f:
-	appnames.add(line.strip())
+	if '=>' in line:
+		line_chunks = line.split('=>')
+		n = len(line_chunks)
+		for i in range(0,n-1):
+			an = line_chunks[i].strip().lower()
+			if 'disk' not in an:
+				appnames.append(line_chunks[i].strip().lower())
+				command = line_chunks[n-1].rstrip('\n')
+				if '%' in command:
+					position = command.find('%')
+					command = command[0:position]
+				commands.append(command.strip())
+#os.system('rm appnames.txt')
 
-appnames = list(appnames)
+f.close()
 
-taglist_size = taglist.__len__()
+def userNameLoader():
+	os.system('whoami>myname')
+	f = open('myname','r')
+	user = ''
+	for line in f:
+		userName = line.rstrip('\n')
+	f.close()
+	os.system('rm myname')
+
+taglist_size = len(taglist)
 
 tag_sequence_corpus = brown.tagged_sents(tagset='brown')
 
@@ -149,7 +180,7 @@ def Viterbi(sentence):
 	return y
 
 def cutit(s,rem,n):
-	n = n + rem.__len__()
+	n = n + len(rem)
 	return s[n:]
 
 def tree2dict(tree):
@@ -159,76 +190,183 @@ def tree2dict(tree):
 def dict_to_json(dict):
     return json.dumps(dict)
 
+def tree2json(tree):
+	return json.loads(dict_to_json(tree2dict(tree)))
+
 def main():
 	while 1 == 1 :
 
 		print("Enter a statement")
-		statement = raw_input()
-		statement = statement.lower()
-
+		statement = raw_input().strip()
+		if statement == '':
+			continue
+		if statement in ['bye','goodbye','tata','good-bye']:
+			exit()
+		userNameLoader() #loads the username
 
 		tagged_arr = Viterbi(statement)
 
 		tokens = word_tokenize(statement)
 
+		isFile = False
+		isDir = False
+
 		#check if all of the elements are same
 		count = 1
 		tag = tagged_arr[1]
-		for i in range(2,tagged_arr.__len__()):
+		for i in range(2,len(tagged_arr)):
 			if tagged_arr[i] == tag:
 				count = count + 1
 		
-		if count == tagged_arr.__len__()-1:
+		if count == len(tagged_arr)-1:
 			n = len(tokens)
-			for i in range(0,n):
+			for i in range(0,n):				
 				tag_temp = Viterbi(tokens[i])[1]
 				tagged_arr[i+1] = tag_temp
-				if tokens[i]=='open':
-					tagged_arr[i+1] = 'VB'
-				if tokens[i]=='file':
-					tagged_arr[i+1] = 'FN'
+
+		for i in range(0,len(tokens)):
+			if i+2 <= len(tokens):
+				if tokens[i] in ['folder','file','directory'] and tagged_arr[i+2] in ['VB','VBN']:
+					tagged_arr[i+1] = 'NN'
+			elif tokens[i] in ['folder','file','directory'] and tagged_arr[i] in ['VB','VBN']:
+					tagged_arr[i+1]='NN'
 
 		for i in range (0,len(tokens)):
-			if tagged_arr[i+1] in ['NN','NNS','NP','VB'] and tokens[i]!= 'open':
+			if tagged_arr[i+1] in ['NN','NNS','NP','VB','AN','JJ'] and tokens[i]!= 'open':
 				for j in range(0,len(appnames)):
-					if tokens[i] in appnames[j]:
-						tagged_arr[i+1]='FN'
-					
+					if tokens[i].lower() in appnames[j] and tokens[i].lower() not in ['file','folder','directory','copy','videos','desktop']:
+						tagged_arr[i+1]='AN'
+						tokens[i] = commands[j]
+						isFile = True
+						break
+				if isDirName(userName,tokens[i])==True:
+						tagged_arr[i+1] = 'AN'
+						isDir = True
+				elif isFileName(userName,tokens[i])==True:
+						tagged_arr[i+1] = 'AN'
+						isFile = True
+
+		for i in range (0,len(tokens)):
+			if tokens[i] in verbList:
+				tagged_arr[i+1] = 'VB'
+		
 		print(tagged_arr)
 
 		grammar_string = """
 		  S -> NP VP
 		  S -> VP
-		  NP -> MODAL PRON | DET NP | NOUN VF | NOUN | FILENAME
- 		  MODAL -> MD
-      		  PRON -> PPSS | PPO
- 		  VP -> VERB NP
-		  VP -> VERB VP
-		  VP -> ADVERB VP
-		  VP -> VF
-	          VERB -> VB | VBN
-		  NOUN -> NN | NP
- 		  VF -> VERB FILENAME
-  		  FILENAME -> FN
+		  NP -> MODAL PRONOUN | NOUN VA | APPNAME
+		  NP -> DET FOLDER VERB NAME | FOLDER VERB NAME| FOLDER NAME | DET NAME
+		  NP -> DET APPNAME
+		  NP -> BACK TONAME | DET BACK TONAME
+		  NP -> WQUERY
+		  WQUERY -> WQL AP NOUN | WRB AP NOUN
+		  BACK -> 'background' | 'BACKGROUND' | 'Background'
+		  BACK -> 'wallpaper' | 'WALLPAPER' | 'Wallpaper'
+		  BACK -> AN
+		  TONAME -> TO FILENAME | TO DET FILENAME
+		  CPY -> DET FILENAME SOURCE DESTINATION | DET FILENAME DESTINATION SOURCE
+		  CPY -> FILENAME SOURCE DESTINATION | FILENAME DESTINATION SOURCE
+		  SOURCE -> IN SOURCER
+	     	  SOURCER -> DET FOLDER VBN APPNAME | DET FOLDER APPNAME | DET APPNAME
+		  SOURCER -> FOLDER VBN APPNAME | FOLDER APPNAME | APPNAME
+		  DESTINATION -> TO DESTINATIONR
+		  DESTINATIONR -> DET FOLDER VBN APPNAME | DET FOLDER APPNAME | DET APPNAME 
+		  DESTINATIONR -> FOLDER VBN APPNAME | FOLDER APPNAME | APPNAME
+		  FOLDER -> 'folder'|'directory'|'file'|'Folder'|'File'|'Directory'|'FOLDER'|'FILE'|'DIRECTORY'
+		  FOLDER -> NN
+		  VP -> VERB NP | VERB VP | ADVERB VP | VERB CPY
+		  VP -> BER RB IN PPS
+		  PPS -> DET PP | PP
+		  PP -> JJ NOUN | NOUN | FOLDER VBN DET FILENAME | FOLDER VBN FILENAME | FOLDER FILENAME | FOLDER DET FILENAME 
+		  PP -> FILENAME
+		  MODAL -> MD
+		  PRONOUN -> PPSS | PPO
+		  VA -> VERB APPNAME
+                  APPNAME -> AN
+  		  VERB -> VB | VBN
 		  ADVERB -> RB
-	          DET -> AT
+		  DET -> AT
+		  NOUN -> NN | NNS
+		  FILENAME -> AN
 		  """
+		
+		str = 'NAME -> '
+		for i in range(1,len(tagged_arr)):
+			str+=tagged_arr[i]
+			if i < len(tagged_arr)-1:
+				str+=" | "
+
+		str+="\n"
+
+		grammar_string += str
 
 		#add POS tags
 		tl = len(tagged_arr)
 		for i in range(1,tl):
-			grammar_string+=tagged_arr[i]+" -> \'"+tokens[i-1]+"\'\n"
+			if tokens[i-1] not in ['file','folder','directory']:
+				grammar_string+=tagged_arr[i]+" -> \'"+tokens[i-1]+"\'\n"
 
 		simple_grammar = CFG.fromstring(grammar_string)
 
 		parser = nltk.ChartParser(simple_grammar)
 
-		json_str = []
+		json_str = ''
+	
+		ANs= []
+		ANJSON = []
+		VBs = []
+		VBJSON = []
+		NAMEs= []
+		NJSON = []
+		CCYs = []
+		SOURCEs = []
+		DESTs = []
+		FILENAMEs = []
+		TONAMEs = []
+		TONAMEFILEs = []
 
 		for tree in parser.parse(tokens):
-			json_str.append(dict_to_json(tree2dict(tree)))
+			print(tree)
+			ANs = list(tree.subtrees(filter=lambda x: x.label()=='AN'))
+			VBs = list(tree.subtrees(filter=lambda x: x.label()=='VERB'))
+			NAMEs = list(tree.subtrees(filter=lambda x: x.label()=='NAME'))
+			CCYs = list(tree.subtrees(filter=lambda x:x.label()=='CCY'))
+			SOURCEs = list(tree.subtrees(filter=lambda x:x.label()=='SOURCER'))
+			SOURCEs = map(lambda x: list(x.subtrees(filter=lambda x: x.label()=='AN')), SOURCEs)
+			DESTs = list(tree.subtrees(filter = lambda x:x.label()=='DESTINATIONR'))
+			DESTs = map(lambda x: list(x.subtrees(filter=lambda x: x.label()=='AN')), DESTs)
+			FILENAMEs = list(tree.subtrees(filter = lambda x:x.label()=='FILENAME'))
+			FILENAMEs = map(lambda x: list(x.subtrees(filter=lambda x: x.label()=='AN')), FILENAMEs)
+			TONAMEs = list(tree.subtrees(filter=lambda x:x.label()=='TONAME'))
+			TONAMEFILEs = map(lambda x: list(x.subtrees(filter=lambda x: x.label()=='AN')), TONAMEs)
 		
-		
-		for i in range(0,len()):
-			json_str[i] = json.loads(json_str[i])
+		for i in xrange(0,len(ANs)):
+			ANJSON.append(tree2json(ANs[i]))
+
+		for i in xrange(0,len(VBs)):
+			VBJSON.append(tree2json(VBs[i]))
+
+		for i in xrange(0,len(NAMEs)):
+			NJSON.append(tree2json(NAMEs[i]))
+
+		for i in xrange(0,len(VBs)):
+			verbRoot = VBJSON[i]['VERB']
+			if 'VB' in verbRoot[0]:
+				if verbRoot[0]['VB'][0] in ['open','close','shut','exit']:
+					if isFile == True:
+						actionSequence(verbRoot[0]['VB'][0],ANJSON,True)
+					elif isDir == True:
+						actionSequence(verbRoot[0]['VB'][0],ANJSON,False)
+				elif verbRoot[0]['VB'][0] in ['make','create']:
+					if isDir == True:
+						createSequence(verbRoot[0]['VB'][0],NJSON,str.rstrip('\n'))				
+				elif verbRoot[0]['VB'][0] in ['copy','cut','move','duplicate']:
+					SOURCEs = tree2json(SOURCEs[0][0])
+					DESTs = tree2json(DESTs[0][0])
+					FILENAMEs = tree2json(FILENAMEs[0][0])
+					cutCopy(verbRoot[0]['VB'][0],FILENAMEs,SOURCEs,DESTs)
+				elif verbRoot[0]['VB'][0] in ['change','replace']:
+					changeWallpaper(verbRoot[0]['VB'][0],tree2json(TONAMEFILEs[0][0]))
+												
 main()

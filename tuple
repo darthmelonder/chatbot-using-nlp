@@ -1,0 +1,190 @@
+facebookmessenger,unity-webapps-runner -n 'RmFjZWJvb2tNZXNzZW5nZXI
+gmail,unity-webapps-runner -n 'R21haWw
+googleplus,unity-webapps-runner -n 'R29vZ2xlUGx1cw
+youtube,unity-webapps-runner -n 'WW91VHViZQ
+activity log manager,activity-log-manager
+main menu,alacarte
+report a problem...,/usr/share/apport/apport-gtk -c
+apturl,apturl
+disk usage analyzer,baobab
+bluetooth transfer,bluetooth-sendto
+bluetooth device setup,bluetooth-wizard
+cd/dvd creator,nautilus --no-default-window --no-desktop burn:///
+brasero,brasero
+open a new window,brasero --no-existing-session
+burn an image file,brasero --image
+copy a disc,brasero --copy
+create an audio project,brasero --audio
+create a video project,brasero --video
+system testing,checkbox-gui
+cheese,cheese
+code::blocks ide,codeblocks
+compiz,compiz
+online accounts,credentials-preferences
+uxterm,uxterm
+xterm,xterm
+backups,deja-dup-preferences
+back up,deja-dup --backup
+backups,deja-dup --backup
+empathy,empathy
+open hidden in background,empathy -h
+open preferences,empathy -p
+open accounts,unity-control-center credentials
+image viewer,eog
+print preview,evince-previewer
+document viewer,evince
+evolution data server,file-roller
+archive manager,file-roller
+firefox web browser,firefox
+open a new window,firefox -new-window
+open a new private window,firefox -private-window
+galculator,galculator
+access prompt,/usr/lib/gcr/gcr-prompter
+view file,/usr/bin/gcr-viewer
+gedit,gedit
+open a new window,gedit --new-window
+open a new document,gedit --new-document
+keyboard layout,gkbd-keyboard-display
+calculator,gnome-calculator
+contacts,gnome-contacts
+backups,gnome-control-center deja-dup
+back up,deja-dup --backup
+disk image mounter,gnome-disk-image-mounter
+disk image writer,gnome-disks --restore-disk-image
+disks,gnome-disks
+mahjongg,gnome-mahjongg
+mines,gnome-mines
+power statistics,gnome-power-statistics
+startup applications,gnome-session-properties
+sudoku,gnome-sudoku
+system log,gnome-system-log-pkexec
+gnome system monitor,gnome-system-monitor
+system monitor,gnome-system-monitor
+terminal,gnome-terminal
+new terminal,gnome-terminal
+personal file sharing,gnome-file-share-properties
+character map,gucharmap
+reactivate hp laserjet 1018/1020 after reloading paper,/usr/share/foo2zjs/hplj10xx_gui.tcl
+ibus table setup,/usr/lib/ibus/ibus-setup-table
+keyboard input methods,ibus-setup
+input method,im-config
+landscape service,landscape-client-ui-install
+language support,/usr/bin/gnome-language-selector
+libreoffice calc,libreoffice --calc
+new spreadsheet,libreoffice --calc
+libreoffice draw,libreoffice --draw
+new drawing,libreoffice --draw
+libreoffice impress,libreoffice --impress
+new presentation,libreoffice --impress
+libreoffice math,libreoffice --math
+new formula,libreoffice --math
+libreoffice,libreoffice --writer
+text document,libreoffice --writer
+spreadsheet,libreoffice --calc
+presentation,libreoffice --impress
+drawing,libreoffice --draw
+database,libreoffice --base
+formula,libreoffice --math
+libreoffice writer,libreoffice --writer
+new document,libreoffice --writer
+libreoffice xslt based filters,mono
+mono runtime,mono
+mono runtime (terminal),mono
+archive mounter,/usr/lib/gvfs/gvfsd-archive file
+run software,nautilus-autorun-software
+desktop icons,nautilus --no-default-window --force-desktop
+connect to server,nautilus-connect-server
+files,nautilus
+home folder,nautilus --new-window
+open a new window,nautilus --new-window
+files,nautilus --new-window
+open a new window,nautilus --new-window
+network,nm-applet
+network connections,nm-connection-editor
+onboard settings,onboard-settings
+onboard,onboard
+screen reader,orca --replace
+cheese,cheese
+archive manager,file-roller
+files,nautilus --new-window
+open a new window,nautilus --new-window
+screenshot,gnome-screenshot --interactive
+take a screenshot of the whole screen,gnome-screenshot
+take a screenshot of the current window,gnome-screenshot -w
+take a screenshot of a selected area,gnome-screenshot -a
+videos,totem
+play/pause,totem --play-pause
+next,totem --next
+previous,totem --previous
+mute,totem --mute
+fullscreen,totem --fullscreen
+font viewer,gnome-font-viewer
+phpmyadmin,sensible-browser http://localhost/phpmyadmin/
+pinta,pinta
+python (v2.7),/usr/bin/python2.7
+python (v3.4),/usr/bin/python3.4
+remmina,remmina
+create a new connection profile,remmina --new
+start remmina minimized,remmina --icon
+rhythmbox,rhythmbox-client --select-source
+rhythmbox,rhythmbox
+play,rhythmbox-client --play
+pause,rhythmbox-client --pause
+next,rhythmbox-client --next
+previous,rhythmbox-client --previous
+passwords and keys,/usr/bin/seahorse
+shotwell viewer,shotwell
+shotwell,shotwell
+account authentication,/usr/bin/signon-ui
+simple scan,simple-scan
+additional drivers,software-properties-gtk
+software & updates,software-properties-gtk
+software & updates,software-properties-gtk
+aisleriot solitaire,/usr/games/sol
+printers,system-config-printer
+thunderbird mail,thunderbird
+compose new message,thunderbird -compose
+contacts,thunderbird -addressbook
+videos,totem
+play/pause,totem --play-pause
+next,totem --next
+previous,totem --previous
+mute,totem --mute
+fullscreen,totem --fullscreen
+transmission,transmission-gtk
+start transmission with all torrents paused,transmission-gtk --paused
+start transmission minimized,transmission-gtk --minimized
+amazon,unity-webapps-runner --amazon --app-id
+ubuntu software center,/usr/bin/software-center
+security & privacy,unity-control-center activity-log-manager
+appearance,unity-control-center appearance
+bluetooth,unity-control-center bluetooth
+color,unity-control-center color
+system settings,unity-control-center --overview
+online accounts,unity-control-center credentials
+time & date,unity-control-center datetime
+backups,unity-control-center deja-dup
+back up,deja-dup --backup
+displays,unity-control-center display
+details,unity-control-center info
+keyboard,unity-control-center keyboard
+photos lens for unity,unity-control-center mouse
+mouse & touchpad,unity-control-center mouse
+network,unity-control-center network
+power,unity-control-center power
+text entry,unity-control-center region
+google drive scope for unity,unity-control-center screen
+brightness & lock,unity-control-center screen
+sound,unity-control-center sound
+universal access,unity-control-center universal-access
+user accounts,unity-control-center user-accounts
+wacom tablet,unity-control-center wacom
+unity webapps qml test launcher,/usr/lib/x86_64-linux-gnu/update-accounts
+account update tool,/usr/lib/x86_64-linux-gnu/update-accounts
+software updater,/usr/bin/update-manager
+startup disk creator,usb-creator-gtk
+vim,vim
+desktop sharing,vino-preferences
+browser,webbrowser-app
+xdiagnose,pkexec xdiagnose
+help,yelp
