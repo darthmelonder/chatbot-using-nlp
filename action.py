@@ -55,7 +55,7 @@ for line in f:
 #print(extensions)
 
 def openDir(dirName):
-	os.system('nautilus '+dirName)
+	os.system('nautilus '+dirName+' &')
 
 def appChecker():
 	f = open('appnames.txt','r')
@@ -113,12 +113,12 @@ def fileNamesLoader():
 
 def openFiles(appName):
 	if '.' not in appName:
-		os.system('gedit '+appName)
+		os.system('gedit '+appName+ '&')
 	else:
 		dotpos = appName.find('.')
 		extn = appName[dotpos:len(appName)]
 		if extn in extensions:
-			os.system(extensions[extn]+' '+appName)
+			os.system(extensions[extn]+' '+appName+' &')
 
 def actionSequence(Verb,Args,fileMode):
 	Verb = Verb.lower()
@@ -194,7 +194,7 @@ def createSequence(Verb,Args,NameRHS):
 		Args = Args[0]['NAME'][0]
 		for word in rhs:
 			if word in Args:
-				print(Args[word][0])
+				#print(Args)
 				os.system('mkdir '+Args[word][0])
 				print("Successfully created the folder named "+Args[word][0])
 				break
@@ -377,3 +377,53 @@ def changeWallpaper(Verb,fileName):
 				print("Wrong choice!")
 				return
 		os.system('gsettings set org.gnome.desktop.background picture-uri file://'+imageList)
+
+def counter(fileName,obj):
+	if obj.lower() in ['lines','sentences','sentence','line']:
+		l = checkIfInHome(fileName)
+		if len(l) == 0:
+			print("Oops! Seems like there is no file like this!")
+		elif len(l) == 1:
+			printLines(l[0])
+		else:
+			print("Seems like there is more than one file with this name")
+			print("Please select an option to select one :")
+			for i in range(0,len(l)):
+				print(str(i+1)+' '+l[i])
+			choice = raw_input().strip()
+			choice = int(choice)
+			if choice in range(1,len(l)+1):
+				printLines(l[choice-1])
+	elif obj.lower() in ['words']:
+		l = checkIfInHome(fileName)
+		if len(l) == 0:
+			print("Oops! Seems like there is no file like this!")
+		elif len(l) == 1:
+			printWords(l[0])
+		else:
+			print("Seems like there is more than one file with this name")
+			print("Please select an option to select one :")
+			for i in range(0,len(l)):
+				print(str(i+1)+' '+l[i])
+			choice = raw_input().strip()
+			choice = int(choice)
+			if choice in range(1,len(l)+1):
+				printWords(l[choice-1])
+
+def printLines(fileName):
+	os.system('wc -l <'+fileName+'>ctr')
+	f = open('ctr','r')
+	ctr = 0
+	for line in f:
+		ctr = int(line.rstrip('\n'))
+	f.close()
+	print(fileName+' has '+str(ctr)+' lines')
+
+def printWords(fileName):
+	os.system('wc -w <'+fileName+'>ctr')
+	f = open('ctr','r')
+	ctr = 0
+	for line in f:
+		ctr = int(line.rstrip('\n'))
+	f.close()
+	print(fileName+' has '+str(ctr)+' words')

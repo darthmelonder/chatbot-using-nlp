@@ -200,7 +200,7 @@ def main():
 		statement = raw_input().strip()
 		if statement == '':
 			continue
-		if statement in ['bye','goodbye','tata','good-bye']:
+		if statement.lower() in ['bye','goodbye','tata','good-bye']:
 			print("Good-bye, dear human")
 			exit()
 		userNameLoader() #loads the username
@@ -250,17 +250,23 @@ def main():
 		for i in range (0,len(tokens)):
 			if tokens[i] in verbList:
 				tagged_arr[i+1] = 'VB'
+				break
+			elif tokens[i] in ['words','lines']:
+				tagged_arr[i+1] = 'NNS'
+				break				
 		
-		print(tagged_arr)
+		#print(tagged_arr)
 
 		grammar_string = """
-		  S -> NP VP
+		  S -> NPP VP
 		  S -> VP
-		  NP -> MODAL PRONOUN | NOUN VA | APPNAME
-		  NP -> DET FOLDER VERB NAME | FOLDER VERB NAME| FOLDER NAME | DET NAME
-		  NP -> DET APPNAME
-		  NP -> BACK TONAME | DET BACK TONAME
-		  NP -> WQUERY
+		  NPP -> MODAL PRONOUN | NOUN VA | APPNAME
+		  NPP -> DET FOLDER VERB NAME | FOLDER VERB NAME| FOLDER NAME | DET NAME
+		  NPP -> DET JJ FOLDER VERB NAME | JJ FOLDER VERB NAME| JJ FOLDER NAME
+		  NPP -> DET AN FOLDER VERB NAME | AN FOLDER VERB NAME| AN FOLDER NAME
+		  NPP -> DET APPNAME
+		  NPP -> BACK TONAME | DET BACK TONAME
+		  NPP -> WQUERY
 		  WQUERY -> WQL AP NOUN | WRB AP NOUN
 		  BACK -> 'background' | 'BACKGROUND' | 'Background'
 		  BACK -> 'wallpaper' | 'WALLPAPER' | 'Wallpaper'
@@ -276,7 +282,7 @@ def main():
 		  DESTINATIONR -> FOLDER VBN APPNAME | FOLDER APPNAME | APPNAME
 		  FOLDER -> 'folder'|'directory'|'file'|'Folder'|'File'|'Directory'|'FOLDER'|'FILE'|'DIRECTORY'
 		  FOLDER -> NN
-		  VP -> VERB NP | VERB VP | ADVERB VP | VERB CPY
+		  VP -> VERB NPP | VERB VP | ADVERB VP | VERB CPY
 		  VP -> BER RB IN PPS
 		  PPS -> DET PP | PP
 		  PP -> JJ NOUN | NOUN | FOLDER VBN DET FILENAME | FOLDER VBN FILENAME | FOLDER FILENAME | FOLDER DET FILENAME 
@@ -288,7 +294,7 @@ def main():
   		  VERB -> VB | VBN
 		  ADVERB -> RB
 		  DET -> AT
-		  NOUN -> NN | NNS
+		  NOUN -> NN | NP | NNS
 		  FILENAME -> AN
 		  """
 		
@@ -309,6 +315,7 @@ def main():
 				grammar_string+=tagged_arr[i]+" -> \'"+tokens[i-1]+"\'\n"
 
 		simple_grammar = CFG.fromstring(grammar_string)
+		#print(simple_grammar)
 
 		parser = nltk.ChartParser(simple_grammar)
 
@@ -326,9 +333,13 @@ def main():
 		FILENAMEs = []
 		TONAMEs = []
 		TONAMEFILEs = []
+		PPs = []
+		PPANs = []
+		WQUERY = []
+		OBJ = []
 
 		for tree in parser.parse(tokens):
-			print(tree)
+			#print(tree)
 			ANs = list(tree.subtrees(filter=lambda x: x.label()=='AN'))
 			VBs = list(tree.subtrees(filter=lambda x: x.label()=='VERB'))
 			NAMEs = list(tree.subtrees(filter=lambda x: x.label()=='NAME'))
@@ -341,7 +352,24 @@ def main():
 			FILENAMEs = map(lambda x: list(x.subtrees(filter=lambda x: x.label()=='AN')), FILENAMEs)
 			TONAMEs = list(tree.subtrees(filter=lambda x:x.label()=='TONAME'))
 			TONAMEFILEs = map(lambda x: list(x.subtrees(filter=lambda x: x.label()=='AN')), TONAMEs)
-		
+			PPs = list(tree.subtrees(filter = lambda x:x.label()=='PP'))
+			PPANs = map(lambda x: list(x.subtrees(filter=lambda x: x.label()=='AN')), PPs)
+			WQUERY = list(tree.subtrees(filter = lambda x:x.label()=='WQUERY'))
+			OBJ = map(lambda x: list(x.subtrees(filter=lambda x: x.label()=='NOUN')), WQUERY)
+
+		if(len(PPANs)>0):
+			PPANs = PPANs[0][0]
+			PPANs = tree2json(PPANs)
+			OBJ = tree2json(OBJ[0][0])
+			obj = OBJ['NOUN'][0]
+			nounArr = ['NNS','NP','NN']
+			for n in nounArr:
+				if n in obj:
+					obj = obj[n]
+					break
+			obj = obj[0]
+			counter(PPANs['AN'][0],obj)
+
 		for i in xrange(0,len(ANs)):
 			ANJSON.append(tree2json(ANs[i]))
 
@@ -360,8 +388,8 @@ def main():
 					elif isDir == True:
 						actionSequence(verbRoot[0]['VB'][0],ANJSON,False)
 				elif verbRoot[0]['VB'][0] in ['make','create']:
-					if isDir == True:
-						createSequence(verbRoot[0]['VB'][0],NJSON,str.rstrip('\n'))				
+					#if isDir == True:
+					createSequence(verbRoot[0]['VB'][0],NJSON,str.rstrip('\n'))				
 				elif verbRoot[0]['VB'][0] in ['copy','cut','move','duplicate']:
 					SOURCEs = tree2json(SOURCEs[0][0])
 					DESTs = tree2json(DESTs[0][0])
@@ -369,5 +397,6 @@ def main():
 					cutCopy(verbRoot[0]['VB'][0],FILENAMEs,SOURCEs,DESTs)
 				elif verbRoot[0]['VB'][0] in ['change','replace']:
 					changeWallpaper(verbRoot[0]['VB'][0],tree2json(TONAMEFILEs[0][0]))
+		 
 												
 main()

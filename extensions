@@ -5,3 +5,4 @@ libreoffice --impress -> .odp,.otp,.odg,.fodp,.uop,.pptx,.ppsx,.potm,.ppt,.pps,.
 eog -> .jpg,.jpeg,.bmp,.png
 firefox -> .html,.xml
 totem -> .mp4, .flv
+rhythmbox -> .mp3

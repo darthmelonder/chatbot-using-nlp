@@ -255,7 +255,7 @@ def main():
 				tagged_arr[i+1] = 'NNS'
 				break				
 		
-		print(tagged_arr)
+		#print(tagged_arr)
 
 		grammar_string = """
 		  S -> NPP VP

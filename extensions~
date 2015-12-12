@@ -4,3 +4,5 @@ libreoffice --writer -> .odt,.ott,.fodt,.uot,.docx,.doc,.dot,.rtf,.docx
 libreoffice --impress -> .odp,.otp,.odg,.fodp,.uop,.pptx,.ppsx,.potm,.ppt,.pps,.pot
 eog -> .jpg,.jpeg,.bmp,.png
 firefox -> .html,.xml
+totem -> .mp4, .flv
+rhyhtmbox -> .mp3
